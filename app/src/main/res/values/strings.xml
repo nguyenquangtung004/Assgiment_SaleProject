@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Assgiment</string>
+    <string name="title_activity_welcome">Welcome</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_register">Register</string>
+    <string name="title_activity_home">Home</string>
+    <string name="title_activity_product_detail">ProductDetail</string>
+    <string name="title_activity_cart">Cart</string>
+    <string name="title_activity_favourite">favourite</string>
+    <string name="title_activity_trang_ca_nhan">TrangCaNhan</string>
+    <string name="title_activity_cart_screen">CartScreen</string>
+</resources>
