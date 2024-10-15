@@ -13,7 +13,8 @@ import retrofit2.HttpException
 
 class ProductViewModel : ViewModel() {
     var productList by mutableStateOf<List<Product>>(emptyList()) // Danh sách sản phẩm
-
+    var searchResults by mutableStateOf<List<Product>>(emptyList()) // Danh sách kết quả tìm kiếm
+    var isSearching by mutableStateOf(false) // Trạng thái tìm kiếm
     init {
         fetchProducts()
     }
@@ -42,4 +43,33 @@ class ProductViewModel : ViewModel() {
             }
         }
     }
+
+    fun searchProduct(query: String) {
+        viewModelScope.launch {
+            isSearching = true // Đặt trạng thái đang tìm kiếm
+            try {
+                val response = RetrofitInstance.api.searchProduct(query) // Gọi API tìm kiếm
+                if (response.isSuccessful) {
+                    val products = response.body()
+                    searchResults = products ?: emptyList() // Cập nhật kết quả tìm kiếm
+                    Log.d("ProductViewModel", "Search results: ${searchResults.joinToString { it.name }}")
+                } else {
+                    Log.e("ProductViewModel", "API Error: ${response.message()}")
+                }
+            } catch (e: Exception) {
+                Log.e("ProductViewModel", "Search error: ${e.message}")
+            } finally {
+                isSearching = false // Kết thúc trạng thái tìm kiếm
+            }
+        }
+    }
+
+
+    // Hàm để hủy tìm kiếm và trả về danh sách sản phẩm đầy đủ
+    fun cancelSearch() {
+        searchResults = emptyList() // Xóa kết quả tìm kiếm
+        isSearching = false // Đặt trạng thái không tìm kiếm
+    }
+
+
 }

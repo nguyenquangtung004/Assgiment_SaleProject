@@ -6,6 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 // Các model dữ liệu
 data class RegisterRequest(
@@ -48,6 +49,12 @@ interface ApiService {
     // API lấy danh sách sản phẩm
     @GET("/products")
     suspend fun getProducts(): Response<List<Product>> // Trả về danh sách sản phẩm
+
+    // Thêm hàm tìm kiếm sản phẩm vào interface ApiService
+    @GET("/products/search")
+    suspend fun searchProduct(@Query("q") query: String): Response<List<Product>>
+
+
 }
 
 // Đối tượng Retrofit để tạo các API service

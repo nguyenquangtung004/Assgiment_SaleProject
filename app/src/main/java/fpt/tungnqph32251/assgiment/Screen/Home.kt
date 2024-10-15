@@ -44,9 +44,11 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import fpt.tungnqph32251.assgiment.R
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
 import kotlinx.coroutines.launch
@@ -55,7 +57,6 @@ import fpt.tungnqph32251.assgiment.ViewModel1.ProductViewModel
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
-//import androidx.lifecycle.ViewModel
 class Home : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,7 +103,9 @@ fun NavHostScreen(navController: NavHostController, productViewModel: ProductVie
 
 
 @Composable
-fun SearchBar() {
+fun SearchBar(productViewModel: ProductViewModel) {
+    var searchText by remember { mutableStateOf("") }
+    var isSearching by remember { mutableStateOf(false) }
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -111,47 +114,50 @@ fun SearchBar() {
         verticalAlignment = Alignment.CenterVertically
     ) {
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = searchText,
+            onValueChange = { newText ->
+                searchText = newText
+            },
             modifier = Modifier
                 .weight(1f)
-                .height(50.dp),
-            placeholder = { Text("Tìm kiếm tên sản phẩm ") },
+                .height(60.dp),
+            placeholder = { Text("Tìm kiếm tên sản phẩm") },
             leadingIcon = {
                 Icon(painterResource(id = R.drawable.search_icon), contentDescription = null)
             },
+            trailingIcon = {
+                // Nếu đang tìm kiếm, hiển thị icon hủy
+                if (isSearching) {
+                    Icon(
+                        imageVector = Icons.Default.Close,
+                        contentDescription = "Cancel",
+                        modifier = Modifier.clickable {
+                            searchText = "" // Xóa nội dung tìm kiếm
+                            isSearching = false
+                            productViewModel.fetchProducts() // Gọi lại danh sách đầy đủ
+                        }
+                    )
+                }
+            },
             shape = MaterialTheme.shapes.small
         )
-        Spacer(modifier = Modifier.width(16.dp))
-        Box(
-            modifier = Modifier
-                .size(50.dp)
-                .background(
-                    color = MaterialTheme.colors.surface,
-                    shape = MaterialTheme.shapes.small
-                )
+        Spacer(modifier = Modifier.width(8.dp))
+
+        // Nút tìm kiếm
+        Button(
+            onClick = {
+                if (searchText.isNotEmpty()) {
+                    productViewModel.searchProduct(searchText) // Gọi tìm kiếm khi nhấn nút
+                    isSearching = true // Đặt trạng thái đang tìm kiếm
+                }
+            },
+            modifier = Modifier.height(50.dp)
         ) {
-            Icon(
-                painter = painterResource(id = R.drawable.bell),
-                contentDescription = null,
-                modifier = Modifier.align(Alignment.Center)
-            )
-            Box(
-                modifier = Modifier
-                    .size(20.dp)
-                    .background(Color.Red, shape = MaterialTheme.shapes.small)
-                    .align(Alignment.TopEnd)
-            ) {
-                Text(
-                    text = "1",
-                    color = Color.White,
-                    modifier = Modifier.align(Alignment.Center),
-                    style = MaterialTheme.typography.caption
-                )
-            }
+            Text("Tìm kiếm")
         }
     }
 }
+
 
 @Composable
 fun BannerSlider(imageList: List<Int>, modifier: Modifier = Modifier) {
@@ -279,11 +285,15 @@ fun ProductItem(
     }
 }
 
-
-
 @Composable
 fun ProductListScreen(navController: NavHostController, productViewModel: ProductViewModel) {
-    val products = productViewModel.productList
+    val products = if (productViewModel.searchResults.isNotEmpty()) {
+        Log.d("ProductListScreen", "Displaying search results: ${productViewModel.searchResults.joinToString { it.name }}")
+        productViewModel.searchResults
+    } else {
+        Log.d("ProductListScreen", "Displaying full product list: ${productViewModel.productList.joinToString { it.name }}")
+        productViewModel.productList
+    }
     val isRefreshing = remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
 
@@ -305,13 +315,8 @@ fun ProductListScreen(navController: NavHostController, productViewModel: Produc
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(products) { product ->
-
                 // Mã hóa URL
-                val productName = product.name // Không mã hóa tên
-                val productDescription = product.description // Không mã hóa mô tả
-                val productCategory = product.category // Không mã hóa danh mục
                 val encodedImageUrl = URLEncoder.encode(product.image_url, StandardCharsets.UTF_8.toString())
-
                 ProductItem(
                     imageUrl = product.image_url,
                     rating = product.ratings,
@@ -338,7 +343,7 @@ fun HomeScreen(navController: NavHostController, productViewModel: ProductViewMo
             .background(MaterialTheme.colors.background)
             .padding(16.dp)
     ) {
-        SearchBar()
+        SearchBar(productViewModel= ProductViewModel())
         Spacer(modifier = Modifier.height(16.dp))
 
         // Phần banner
