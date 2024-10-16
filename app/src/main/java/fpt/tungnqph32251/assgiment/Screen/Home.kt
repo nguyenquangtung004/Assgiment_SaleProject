@@ -93,13 +93,13 @@ fun NavHostScreen(navController: NavHostController, productViewModel: ProductVie
             ProductDetailScreen(navController = navController, backStackEntry = backStackEntry)
         }
         composable("cart") {
-            Cart() // Màn hình giỏ hàng
+            Cart(navController = navController) // Màn hình giỏ hàng
         }
         composable("addProduct") {
             AddProductScreen(navController = navController, productViewModel = productViewModel)
         }
         composable("favorites") {
-            FavouriteScreen()
+//            FavouriteScreen()
         }
     }
 }
