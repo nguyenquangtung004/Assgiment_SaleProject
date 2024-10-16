@@ -56,7 +56,7 @@ interface ApiService {
 object RetrofitInstance {
     val api: ApiService by lazy {
         Retrofit.Builder()
-            .baseUrl("http://192.168.1.41:3000/") // Địa chỉ API của bạn
+            .baseUrl("http://10.24.54.70:3000/") // Địa chỉ API của bạn
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)

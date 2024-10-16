@@ -98,8 +98,8 @@ fun NavHostScreen(navController: NavHostController, productViewModel: ProductVie
         composable("addProduct") {
             AddProductScreen(navController = navController, productViewModel = productViewModel)
         }
-        composable("favorites") {
-//            FavouriteScreen()
+        composable("favourite") {
+            FavouriteScreen()
         }
     }
 }
@@ -430,14 +430,14 @@ fun BottomAppBarContent(navController: NavHostController, currentScreen: String)
         BottomNavigationItem(
             icon = { Icon(Icons.Filled.Favorite, contentDescription = "Yêu Thích") },
             label = { Text("Yêu Thích", textAlign = TextAlign.Center) },
-            selected = currentScreen == "favorites", // Kiểm tra nếu màn hình hiện tại là "favorites"
+            selected = currentScreen == "favourite", // Kiểm tra nếu màn hình hiện tại là "favorites"
             onClick = {
-                navController.navigate("favorites")
+                navController.navigate("favourite")
             },
             selectedContentColor = nau,
             unselectedContentColor = xanhNhat,
             modifier = Modifier
-                .height(if (currentScreen == "favorites") 120.dp else 100.dp)
+                .height(if (currentScreen == "favourite") 120.dp else 100.dp)
         )
 
         BottomNavigationItem(

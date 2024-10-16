@@ -178,7 +178,32 @@ fun ProductDetailScreen(navController: NavHostController, backStackEntry: NavBac
             // Nút "Yêu thích"
             Button(
                 onClick = {
+                    val sharedPreferences: SharedPreferences = context.getSharedPreferences("favourites_prefs", Context.MODE_PRIVATE)
+                    val editor = sharedPreferences.edit()
+
+                    // Tạo đối tượng sản phẩm mới
+                    val favouriteProduct = ProductItem(
+                        name = productName,
+                        price = productPrice,
+                        imageUrl = productImageUrl,
+                        description = productDescription,
+                        category = productCategory
+                    )
+
+                    // Lấy danh sách sản phẩm yêu thích hiện tại từ SharedPreferences
+                    val existingFavourites = sharedPreferences.getString("favouriteItems", "[]")
+                    val favouriteList = Gson().fromJson(existingFavourites, Array<ProductItem>::class.java).toMutableList()
+
+                    // Thêm sản phẩm vào danh sách yêu thích
+                    favouriteList.add(favouriteProduct)
+
+                    // Lưu lại danh sách yêu thích đã cập nhật
+                    editor.putString("favouriteItems", Gson().toJson(favouriteList))
+                    editor.apply()
+                    Toast.makeText(context, Gson().toJson(favouriteList), Toast.LENGTH_LONG).show()
                     Toast.makeText(context, "Đã thêm vào yêu thích", Toast.LENGTH_SHORT).show()
+                    // Điều hướng sang màn hình yêu thích sau khi thêm
+                    navController.navigate("favourite")  // Điều hướng tới màn hình yêu thích
                 },
                 modifier = Modifier
                     .fillMaxWidth()
