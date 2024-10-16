@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import fpt.tungnqph32251.assgiment.network.Product
+import fpt.tungnqph32251.assgiment.Model.Product
 import fpt.tungnqph32251.assgiment.network.RetrofitInstance
 import kotlinx.coroutines.launch
 import retrofit2.HttpException

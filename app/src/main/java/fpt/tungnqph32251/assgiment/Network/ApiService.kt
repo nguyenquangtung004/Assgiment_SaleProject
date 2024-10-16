@@ -1,5 +1,6 @@
 package fpt.tungnqph32251.assgiment.network
 
+import fpt.tungnqph32251.assgiment.Model.Product
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -25,15 +26,6 @@ data class AuthResponse(
     val token: String
 )
 
-// Model Product để ánh xạ dữ liệu từ API
-data class Product(
-    val name: String,         // Tên sản phẩm
-    val image_url: String,    // URL hình ảnh của sản phẩm
-    val price: Double,        // Giá của sản phẩm
-    val description: String,  // Mô tả của sản phẩm
-    val category: String,     // Danh mục sản phẩm
-    val ratings: Float        // Số lượng đánh giá
-)
 
 // Interface chứa các API service
 interface ApiService {
@@ -50,10 +42,10 @@ interface ApiService {
     @GET("/products")
     suspend fun getProducts(): Response<List<Product>> // Trả về danh sách sản phẩm
 
+
     // Thêm hàm tìm kiếm sản phẩm vào interface ApiService
     @GET("/products/search")
     suspend fun searchProduct(@Query("q") query: String): Response<List<Product>>
-
 
 }
 
