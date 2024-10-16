@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -76,6 +77,20 @@ fun FavouriteScreen(modifier: Modifier = Modifier) {
         val savedFavourites = sharedPreferences.getString("favouriteItems", "[]")
         favouriteProducts = Gson().fromJson(savedFavourites, Array<ProductItem>::class.java).toList()
     }
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+    // Thêm tiêu đề màn hình yêu thích
+    Text(
+        text = "Danh Sách Yêu Thích",
+        style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
+        color = Color(0xFF6200EE),
+        modifier = Modifier
+            .align(Alignment.CenterHorizontally) // Căn giữa chữ theo chiều ngang
+            .padding(bottom = 16.dp)
+    )
 
     LazyColumn(
         modifier = modifier
@@ -97,6 +112,7 @@ fun FavouriteScreen(modifier: Modifier = Modifier) {
                 favouriteProducts = updatedFavourites
             })
             Spacer(modifier = Modifier.height(16.dp))
+            }
         }
     }
 }
