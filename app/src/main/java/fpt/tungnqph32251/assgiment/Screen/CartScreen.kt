@@ -70,24 +70,43 @@ fun Cart(navController: NavHostController) {
             .fillMaxSize()
             .padding(16.dp)
     ) {
+        Text(
+            text = "Giỏ Hàng",
+            style = MaterialTheme.typography.headlineLarge,  // Thay đổi kích thước chữ
+            color = Color.Black,  // Màu sắc của tiêu đề
+            modifier = Modifier
+                .fillMaxWidth()  // Tiêu đề chiếm hết chiều rộng của màn hình
+                .padding(vertical = 16.dp),  // Thêm khoảng cách phía trên và dưới
+            textAlign = TextAlign.Center  // Căn giữa tiêu đề
+        )
+
         // Nếu giỏ hàng trống, hiển thị thông báo và nút về trang chủ
         if (productList.isEmpty()) {
-            Text(
-                text = "Giỏ hàng rỗng",
-                style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(
-                onClick = { navController.navigate("home") }, // Điều hướng về màn hình Home
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6200EE))
+                    .fillMaxSize(),  // Cột chiếm toàn bộ màn hình
+                verticalArrangement = Arrangement.Center,  // Căn giữa theo chiều dọc
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "Về trang chủ", color = Color.White)
+                Text(
+                    text = "Giỏ hàng rỗng",
+                    style = MaterialTheme.typography.headlineMedium,
+                    textAlign = TextAlign.Center
+
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Button(
+                    onClick = { navController.navigate("home") }, // Điều hướng về màn hình Home
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6200EE))
+                ) {
+                    Text(text = "Về trang chủ", color = Color.White)
+                }
             }
+
         } else {
             // Thay thế LazyColumn bằng Column kết hợp với verticalScroll
             val scrollState = rememberScrollState() // Tạo ScrollState để cuộn nội dung
