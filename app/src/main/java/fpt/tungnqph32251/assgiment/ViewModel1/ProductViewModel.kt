@@ -19,6 +19,8 @@ class ProductViewModel : ViewModel() {
         fetchProducts()
     }
 
+
+
     fun fetchProducts() {
         viewModelScope.launch {
             try {
@@ -64,11 +66,44 @@ class ProductViewModel : ViewModel() {
         }
     }
 
-
     // Hàm để hủy tìm kiếm và trả về danh sách sản phẩm đầy đủ
     fun cancelSearch() {
         searchResults = emptyList() // Xóa kết quả tìm kiếm
         isSearching = false // Đặt trạng thái không tìm kiếm
+    }
+
+    fun addProduct(
+        name: String,
+        imageUrl: String,
+        price: Double,
+        description: String,
+        category: String,
+        onResult: () -> Unit
+    ) {
+        viewModelScope.launch {
+            try {
+                val response = RetrofitInstance.api.addProduct(
+                    Product(
+                        name = name,
+                        image_url = imageUrl,
+                        price = price,
+                        description = description,
+                        category = category,
+                        ratings = 0f ,
+                        createdAt = "2024-10-16", // Giá trị của ngày tạo
+                        updatedAt = "2024-10-16"
+                    )
+                )
+                if (response.isSuccessful) {
+                    Log.d("ProductViewModel", "Sản phẩm đã được thêm thành công")
+                    onResult() // Gọi lại hàm để quay lại màn hình trước
+                } else {
+                    Log.e("ProductViewModel", "Lỗi khi thêm sản phẩm: ${response.message()}")
+                }
+            } catch (e: Exception) {
+                Log.e("ProductViewModel", "Lỗi khi thêm sản phẩm: ${e.message}")
+            }
+        }
     }
 
 

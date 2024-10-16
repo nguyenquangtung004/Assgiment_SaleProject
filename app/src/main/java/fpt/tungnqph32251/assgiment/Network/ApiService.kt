@@ -42,10 +42,13 @@ interface ApiService {
     @GET("/products")
     suspend fun getProducts(): Response<List<Product>> // Trả về danh sách sản phẩm
 
-
     // Thêm hàm tìm kiếm sản phẩm vào interface ApiService
     @GET("/products/search")
     suspend fun searchProduct(@Query("q") query: String): Response<List<Product>>
+
+    @POST("/products/add")
+    suspend fun addProduct(@Body product: Product): Response<Unit>
+
 
 }
 

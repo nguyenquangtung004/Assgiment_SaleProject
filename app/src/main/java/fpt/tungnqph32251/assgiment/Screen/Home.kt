@@ -95,6 +95,9 @@ fun NavHostScreen(navController: NavHostController, productViewModel: ProductVie
         composable("cart") {
             Cart() // Màn hình giỏ hàng
         }
+        composable("addProduct") {
+            AddProductScreen(navController = navController, productViewModel = productViewModel)
+        }
         composable("favorites") {
             FavouriteScreen()
         }
@@ -408,6 +411,20 @@ fun BottomAppBarContent(navController: NavHostController, currentScreen: String)
             unselectedContentColor = xanhNhat, // Màu xanh nhạt cho mục không được chọn
             modifier = Modifier
                 .height(if (currentScreen == "home") 120.dp else 100.dp) // Phóng to khi được chọn
+        )
+
+        // Nút để chuyển sang màn hình thêm sản phẩm
+        BottomNavigationItem(
+            icon = { Icon(Icons.Filled.Add, contentDescription = "Thêm sản phẩm") },
+            label = { Text("Thêm SP", textAlign = TextAlign.Center) },
+            selected = currentScreen == "addProduct", // Kiểm tra nếu màn hình hiện tại là "addProduct"
+            onClick = {
+                navController.navigate("addProduct") // Chuyển sang màn hình thêm sản phẩm
+            },
+            selectedContentColor = nau,
+            unselectedContentColor = xanhNhat,
+            modifier = Modifier
+                .height(if (currentScreen == "addProduct") 120.dp else 100.dp)
         )
 
         BottomNavigationItem(
