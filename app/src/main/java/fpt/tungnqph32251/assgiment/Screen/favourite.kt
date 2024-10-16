@@ -86,7 +86,7 @@ fun FavouriteScreen(modifier: Modifier = Modifier) {
     Text(
         text = "Danh Sách Yêu Thích",
         style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
-        color = Color(0xFF6200EE),
+        color = Color.Black,
         modifier = Modifier
             .align(Alignment.CenterHorizontally) // Căn giữa chữ theo chiều ngang
             .padding(bottom = 16.dp)
