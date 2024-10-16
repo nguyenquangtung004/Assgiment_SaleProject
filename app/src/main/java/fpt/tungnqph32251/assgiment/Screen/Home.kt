@@ -101,6 +101,10 @@ fun NavHostScreen(navController: NavHostController, productViewModel: ProductVie
         composable("favourite") {
             FavouriteScreen()
         }
+        composable("account"){
+            ProfileScreenUI()
+        }
+
     }
 }
 
@@ -126,7 +130,7 @@ fun SearchBar(productViewModel: ProductViewModel) {
                 .height(60.dp),
             placeholder = { Text("Tìm kiếm tên sản phẩm") },
             leadingIcon = {
-                Icon(painterResource(id = R.drawable.search_icon), contentDescription = null)
+                Icon(painterResource(id = R.drawable.search), contentDescription = null)
             },
             trailingIcon = {
                 // Nếu đang tìm kiếm, hiển thị icon hủy

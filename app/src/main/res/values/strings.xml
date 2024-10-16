@@ -9,4 +9,5 @@
     <string name="title_activity_favourite">favourite</string>
     <string name="title_activity_trang_ca_nhan">TrangCaNhan</string>
     <string name="title_activity_cart_screen">CartScreen</string>
+    <string name="title_activity_profile_screen">ProfileScreen</string>
 </resources>

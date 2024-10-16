@@ -101,7 +101,7 @@ fun Cart(navController: NavHostController) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(50.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6200EE))
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
                 ) {
                     Text(text = "Về trang chủ", color = Color.White)
                 }
@@ -144,7 +144,7 @@ fun Cart(navController: NavHostController) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6200EE))
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
             ) {
                 Text(text = "Thanh Toán", color = Color.White)
             }
